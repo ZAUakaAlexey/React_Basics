@@ -186,7 +186,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     new MenuCard(
-        "img/tabs/vegy.jpg",
+        "img/tabs/vegy.jpg",  
         "vegy",
         'Меню "Фитнес"',
         'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
@@ -213,7 +213,61 @@ window.addEventListener('DOMContentLoaded', () => {
         ".menu .container"
     ).render();
 
+    //Forms
 
+    const forms = document.querySelectorAll('form');
+
+    const message = {
+        loading : 'Загрузка',
+        succes : 'Спасибо! Скоро мы с вами свяжемся',
+        failure : 'Что-то пошло не так ...'
+    };
+
+    forms.forEach(item => {
+        postData(item);
+    });
+
+    function postData (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = message.loading;
+            form.append(statusMessage);
+
+            const request = new XMLHttpRequest();
+            new.open('POST', 'server.php');
+            
+            request.setRequestHeader('Content-type', 'application/json'); //при передаче FormData НЕ используем
+
+            const formData = new FormData(form);
+
+            const object = {};
+
+            formData.forEach(function(key, value) {
+                object[key] = value;
+            });
+
+            const json = JSON.stringify(object);
+
+            // request.send(formData); //отправляем форму, которую передали аргументом в функцию
+            request.send(json);
+
+            request.addEventListener('load', ()=> {
+                if (request.status === 200 ) {
+                    statusMessage.textContent = message.succes;
+                    form.reset();
+                    setTimeout(()=> {
+                        statusMessage.remove();
+                    }, );
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            });
+
+        });
+    }
 
 
 });
