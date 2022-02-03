@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // TIMER
 
-    const deadline = '2022-01-30';
+    const deadline = '2022-03-30';
 
     function getTimeRemaining (endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -135,7 +135,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // const modalOpenTimerId = setTimeout(openModal, 5000); //открытие модального окна через 5000мс
+    const modalOpenTimerId = setTimeout(openModal, 5000); //открытие модального окна через 5000мс
 
     function showModalByScroll () {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
@@ -241,7 +241,7 @@ window.addEventListener('DOMContentLoaded', () => {
             form.insertAdjacentElement('afterend', statusMessage);
 
             const request = new XMLHttpRequest();
-            new.open('POST', 'server.php');
+            request.open('POST', 'server.php');
             
             request.setRequestHeader('Content-type', 'application/json'); //при передаче FormData НЕ используем
 
@@ -260,6 +260,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             request.addEventListener('load', ()=> {
                 if (request.status === 200 ) {
+                    console.log(request.response);
                     showThanksModal(message.succes);
                     form.reset();
                     statusMessage.remove();
@@ -282,7 +283,7 @@ window.addEventListener('DOMContentLoaded', () => {
         thanksModal.classList.add('modal__dialog');
         thanksModal.innerHTML=`
         <div class="modal__content">
-            <div class="modal__close">&times;</div>
+            <div class="modal__close" data-close>&times;</div>
             <div class="modal__title">${message}</div>
         </div>
         `;
