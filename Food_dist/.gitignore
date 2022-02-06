@@ -1,0 +1,14 @@
+/node_modules
+/.pnp
+/.pnp.js
+
+/coverage
+
+/build
+
+node_modules
+tmp
+lib
+.DS_Store
+.idea
+db.json
