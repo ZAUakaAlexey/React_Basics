@@ -294,7 +294,50 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const slides = document.querySelectorAll('.offer__slide'),
           next = document.querySelector('.offer__slider-next'),
-          prev = document.querySelector('.offer__slider-prev');
-          
+          prev = document.querySelector('.offer__slider-prev'),
+          total = document.querySelector('#total'),
+          current = document.querySelector('#current');
+    let slideIndex = 1;
+
+    showSlides(slideIndex);
+
+    if (slides.length < 10) {
+        total.textContent = `0${slides.length}`;
+    } else {
+        total.textContent = `${slides.length}`;
+    }
+
+    function showSlides (n) {
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach(item => {
+            item.style.display = 'none';
+        });
+
+        slides[slideIndex - 1].style.display = 'block';
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = `${slideIndex}`;
+        }
+    }
+
+    function slidePlus (n) {
+        showSlides(slideIndex += n);
+    }
+
+    next.addEventListener('click', () => {
+        slidePlus(1);
+    });
+
+    prev.addEventListener('click', () => {
+        slidePlus(-1);
+    });
 
 });
