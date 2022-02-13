@@ -427,11 +427,11 @@ window.addEventListener('DOMContentLoaded', () => {
 // Calorie calculator
 
 const calories = document.querySelector('.calculating__result span');
-let sex,
+let sex = 'female',
     height,
     weight,
     age,
-    ratio;
+    ratio = 1.375;
 
 function evaluteTotal () {
     if (!sex || !height || !weight || !age || !ratio) {
@@ -444,11 +444,59 @@ function evaluteTotal () {
     } else {
         calories.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
     }
+    
 }
 
 evaluteTotal();
 
+function getStaticInformation (parentSelector, activeClass){
+    const elements = document.querySelectorAll(`${parentSelector} div`);
 
+    elements.forEach(elem => {
+        elem.addEventListener('click', (e) => {
+            if (e.target.getAttribute('data-ratio')) {
+                ratio = +e.target.getAttribute('data-ratio');
+            } else {
+                sex = e.target.getAttribute('id');
+            }
+            
+            elements.forEach(elem => {
+                elem.classList.remove(activeClass);
+            });
     
+            e.target.classList.add(activeClass);
+    
+            evaluteTotal();
+    
+        });
+    });
+}
+
+    getStaticInformation('#gender', 'calculating__choose-item_active');
+    getStaticInformation('.calculating__choose_big','calculating__choose-item_active');
+
+function getDynamicInformation(selector) {
+    const input = document.querySelector(selector);
+
+    input.addEventListener('input', () => {
+        switch(input.getAttribute('id')){
+            case 'height':
+                height = +input.value;
+                break;
+            case 'weight':
+                weight = +input.value;
+                break;
+            case 'age':
+                age = +input.value;
+                break;
+        }
+    
+    evaluteTotal();
+    });
+}
+
+getDynamicInformation('#height');
+getDynamicInformation('#weight');
+getDynamicInformation('#age');
 
 });
