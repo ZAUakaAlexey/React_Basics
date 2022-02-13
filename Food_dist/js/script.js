@@ -1,5 +1,3 @@
-const { result } = require("lodash");
-
 window.addEventListener('DOMContentLoaded', () => {
 
 // TABS
