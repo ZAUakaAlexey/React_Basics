@@ -1,3 +1,5 @@
+const { result } = require("lodash");
+
 window.addEventListener('DOMContentLoaded', () => {
 
 // TABS
@@ -423,6 +425,32 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
     });
+
+// Calorie calculator
+
+const calories = document.querySelector('.calculating__result span');
+let sex,
+    height,
+    weight,
+    age,
+    ratio;
+
+function evaluteTotal () {
+    if (!sex || !height || !weight || !age || !ratio) {
+        calories.textContent = '----';
+        return;
+    }
+
+    if (sex === 'female') {
+        calories.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
+    } else {
+        calories.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
+    }
+}
+
+evaluteTotal();
+
+
     
 
 });
