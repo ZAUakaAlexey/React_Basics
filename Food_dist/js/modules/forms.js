@@ -83,4 +83,4 @@ function forms(){
       }, 4000);
   };
 }
-module.exports = forms;
+export default forms;
