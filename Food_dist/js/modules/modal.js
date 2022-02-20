@@ -1,47 +1,48 @@
-function modal(){
-    // MODAL
+function openModal(modalSelector, modalOpenTimerId) {
+    const modal = document.querySelector(modalSelector);
 
-    const modalBtns = document.querySelectorAll('[data-modal]'),
-          modal = document.querySelector('.modal');
-        //   modalCloseBtn = document.querySelector('[data-close]');
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    document.body.style.overflow = 'hidden';
     
-    function openModal() {
-        modal.classList.add('show');
-        modal.classList.remove('hide');
-        document.body.style.overflow = 'hidden';
-        clearInterval(modalOpenTimerId); // если пользователь сам открывал модальое окно, то убираем автоматическое его открытие
+    if (modalOpenTimerId) {
+        clearInterval(modalOpenTimerId);
     }
 
-    function closeModal() {
-        modal.classList.add('hide');
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-    }
+}
+
+function closeModal(modalSelector) {
+    const modal = document.querySelector(modalSelector);
+
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+function modal(triggerSelector, modalSelector, modalOpenTimerId){
+
+    const modalBtns = document.querySelectorAll(triggerSelector),
+          modal = document.querySelector(modalSelector);
 
     modalBtns.forEach(btn => {
-        btn.addEventListener('click', openModal);
+        btn.addEventListener('click', () => openModal(modalSelector, modalOpenTimerId));
     });
-
-    // modalCloseBtn.addEventListener('click', closeModal);
     
     modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.getAttribute('data-close') == '') {
-            closeModal();
+            closeModal(modalSelector);
         }
     });
 
     document.addEventListener('keydown', (e) => {
         if (e.code === 'Escape' && modal.classList.contains('show')) {
-            closeModal();
-            // console.log('esc');
+            closeModal(modalSelector);
         }
     });
 
-    const modalOpenTimerId = setTimeout(openModal, 5000); //открытие модального окна через 5000мс
-
     function showModalByScroll () {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
-            openModal();
+            openModal(modalSelector, modalOpenTimerId);
             window.removeEventListener('scroll', showModalByScroll);
         }
     }
@@ -49,3 +50,4 @@ function modal(){
 
 }
 export default modal;
+export {openModal, closeModal};

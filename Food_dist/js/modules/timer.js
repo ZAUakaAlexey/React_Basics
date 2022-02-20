@@ -1,7 +1,4 @@
-function timer(){
-// TIMER
-
-const deadline = '2022-03-30';
+function timer(timerId, timerDeadLine){
 
 function getTimeRemaining (endtime) {
     const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -52,7 +49,7 @@ function setTimer(selector, endtime) {
     }
 }
 
-setTimer('.timer', deadline);
+setTimer(timerId, timerDeadLine);
 
 }
 
